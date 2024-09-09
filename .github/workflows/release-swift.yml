@@ -24,4 +24,4 @@ jobs:
       - name: Output green-tokens versions
         if: ${{ contains(fromJson(steps.changesets.outputs.publishedPackages).*.name, '@sebgroup/green-tokens') }}
         id: output-tokens-version
-        run: echo ${{ fromJson(steps.changesets.outputs.publishedPackages) }}
+        run: echo ${{ steps.changesets.outputs.publishedPackages }}
