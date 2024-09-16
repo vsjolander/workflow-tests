@@ -26,11 +26,50 @@ jobs:
         id: output-tokens-version
         run: echo "tokensversion=$(jq -r '.[] | select(.name=="@sebgroup/green-tokens").version' <<< '${{ steps.changesets.outputs.publishedPackages }}')" >> "$GITHUB_OUTPUT"
 
-  deploy:
-    name: Deploy
+      - name: Mock Artifact
+        id: artifact
+        run: echo "${{ steps.output-tokens-version.outputs.tokensversion}}" >> iostokens.txt
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: iostokens
+          path: iostokens.txt
+
+  deployiostokens:
+    name: Deploy Green Tokens iOS
     runs-on: ubuntu-latest
     needs: release
     if: ${{ needs.release.outputs.tokensshoulddeploy == true }}
+    env:
+      CI_COMMIT_MESSAGE: Continuous Integration Deployment ${{ github.sha }}}
+      CI_COMMIT_AUTHOR: Continuous Integration
     steps:
-      - name: Test
-        run: echo '${{ needs.release.outputs.tokensshoulddeploy }} ${{ needs.release.outputs.tokensversion }}'
+      # - name: Get token
+      #   id: get_token_deploy
+      #   uses: actions/create-github-app-token@v1
+      #   with:
+      #     app-id: ${{ secrets.GREEN_BOT_APP_ID }}
+      #     private-key: ${{ secrets.GREEN_BOT_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # repository: seb-oss/green-tokens-ios
+          ref: main
+          # token: ${{ steps.get_token_deploy.outputs.token }}
+
+      - name: Get artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: iostokens
+
+      - name: Push changes
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "username@users.noreply.github.com"
+          git add .
+          git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git push
+          git tag -a ${{ needs.release.outputs.tokensversion }} -m "Version ${{ needs.release.outputs.tokensversion }} of the Green Tokens Package for Swift."
+          git push origin ${{ needs.release.outputs.tokensversion }}
