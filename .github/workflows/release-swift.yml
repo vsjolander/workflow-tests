@@ -27,10 +27,12 @@ jobs:
         run: echo "tokensversion=$(jq -r '.[] | select(.name=="@sebgroup/green-tokens").version' <<< '${{ steps.changesets.outputs.publishedPackages }}')" >> "$GITHUB_OUTPUT"
 
       - name: Mock Artifact
+        if: ${{ contains(fromJson(steps.changesets.outputs.publishedPackages).*.name, '@sebgroup/green-tokens') }}
         id: artifact
         run: echo "${{ steps.output-tokens-version.outputs.tokensversion}}" >> iostokens.txt
 
       - name: Archive production artifacts
+        if: ${{ contains(fromJson(steps.changesets.outputs.publishedPackages).*.name, '@sebgroup/green-tokens') }}
         uses: actions/upload-artifact@v4
         with:
           name: iostokens
