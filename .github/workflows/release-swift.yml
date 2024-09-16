@@ -50,6 +50,7 @@ jobs:
     env:
       CI_COMMIT_MESSAGE: Continuous Integration Deployment ${{ github.sha }}}
       CI_COMMIT_AUTHOR: Continuous Integration
+    if: ${{ needs.release.outputs.tokensshoulddeploy == true }}
     steps:
       - name: Debug
         run: echo ${{ needs.release.outputs.tokensshoulddeploy }}
