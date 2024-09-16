@@ -45,6 +45,7 @@ jobs:
     env:
       CI_COMMIT_MESSAGE: Continuous Integration Deployment ${{ github.sha }}}
       CI_COMMIT_AUTHOR: Continuous Integration
+    if: ${{ needs.release.outputs.tokensshoulddeploy == true }}
     steps:
       - name: Debug
         run: echo ${{ needs.release.outputs.tokensshoulddeploy }}
@@ -59,6 +60,8 @@ jobs:
 
       - name: Push changes
         run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "greendesignsystem@seb.se"
           git add .
           git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
           git push
