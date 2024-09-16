@@ -47,19 +47,8 @@ jobs:
       CI_COMMIT_MESSAGE: Continuous Integration Deployment ${{ github.sha }}}
       CI_COMMIT_AUTHOR: Continuous Integration
     steps:
-      # - name: Get token
-      #   id: get_token_deploy
-      #   uses: actions/create-github-app-token@v1
-      #   with:
-      #     app-id: ${{ secrets.GREEN_BOT_APP_ID }}
-      #     private-key: ${{ secrets.GREEN_BOT_PRIVATE_KEY }}
-
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          # repository: seb-oss/green-tokens-ios
-          ref: main
-          # token: ${{ steps.get_token_deploy.outputs.token }}
 
       - name: Get artifact
         uses: actions/download-artifact@v4
