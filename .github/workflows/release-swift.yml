@@ -52,7 +52,7 @@ jobs:
       CI_COMMIT_AUTHOR: Continuous Integration
     steps:
       - name: Debug
-        run: echo "${{ needs.release.outputs.tokensshoulddeploy }} ${{ needs.release.outputs.tokensversion }}"
+        run: echo "${{ needs.release.outputs.tokensshoulddeploy }} ${{ needs.release.outputs.tokensversion }} ${{ needs.release.outputs.tokensshoulddeploy == true }}"
 
       - name: Checkout
         uses: actions/checkout@v4
