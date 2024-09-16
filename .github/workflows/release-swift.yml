@@ -17,7 +17,7 @@ jobs:
       - name: Mock Changeset
         id: changesets
         run: |
-          echo "publishedPackages=[{\"name\": \"@sebgroup/green-tokens\", \"version\": \"0.6.3\"}]" >> "$GITHUB_OUTPUT"
+          echo "publishedPackages=[{\"name\": \"@sebgroup/green-tokens\", \"version\": \"0.6.4\"}]" >> "$GITHUB_OUTPUT"
 
       - name: Output green-tokens versions
         if: ${{ contains(fromJson(steps.changesets.outputs.publishedPackages).*.name, '@sebgroup/green-tokens') }}
@@ -50,10 +50,8 @@ jobs:
     env:
       CI_COMMIT_MESSAGE: Continuous Integration Deployment ${{ github.sha }}}
       CI_COMMIT_AUTHOR: Continuous Integration
+    if: ${{ needs.release.outputs.tokensshoulddeploy == 'true' }}
     steps:
-      - name: Debug
-        run: echo ${{ needs.release.outputs.tokensshoulddeploy }} ${{ needs.release.outputs.tokensversion }} ${{ needs.release.outputs.tokensshoulddeploy == 'true' }}
-
       - name: Checkout
         uses: actions/checkout@v4
 
