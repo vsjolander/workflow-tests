@@ -52,6 +52,9 @@ jobs:
       CI_COMMIT_AUTHOR: Continuous Integration
     if: ${{ needs.release.outputs.tokensshoulddeploy == 'true' }}
     steps:
+      - name: Debug
+        run: echo ${{ needs.release.outputs.tokensshoulddeploy }} ${{ needs.release.outputs.tokensversion }}
+
       - name: Checkout
         uses: actions/checkout@v4
 
