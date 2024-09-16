@@ -46,6 +46,9 @@ jobs:
       CI_COMMIT_MESSAGE: Continuous Integration Deployment ${{ github.sha }}}
       CI_COMMIT_AUTHOR: Continuous Integration
     steps:
+      - name: Debug
+        run: echo ${{ needs.release.outputs.tokensshoulddeploy }}
+
       - name: Checkout
         uses: actions/checkout@v4
 
