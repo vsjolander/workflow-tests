@@ -39,7 +39,7 @@ jobs:
       - name: Debug
         run: |
           echo ${{ contains(fromJson(steps.changesets.outputs.publishedPackages).*.name, '@sebgroup/green-tokens') }}
-          echo "${{ fromJson(steps.changesets.outputs.publishedPackages) }}"
+          echo "${{ steps.changesets.outputs.publishedPackages }}"
 
   deployiostokens:
     name: Deploy Green Tokens iOS
