@@ -47,7 +47,6 @@ jobs:
     name: Deploy Green Tokens iOS
     runs-on: ubuntu-latest
     needs: release
-    if: ${{ needs.release.outputs.tokensshoulddeploy == true }}
     env:
       CI_COMMIT_MESSAGE: Continuous Integration Deployment ${{ github.sha }}}
       CI_COMMIT_AUTHOR: Continuous Integration
