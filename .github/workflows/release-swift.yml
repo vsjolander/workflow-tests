@@ -17,7 +17,7 @@ jobs:
       - name: Mock Changeset
         id: changesets
         run: |
-          echo "publishedPackages=[{\"name\": \"@sebgroup/green-tokens\", \"version\": \"0.6.4\"}]" >> "$GITHUB_OUTPUT"
+          echo "publishedPackages=[{\"name\": \"@sebgroup/green-angular\", \"version\": \"0.6.5\"}]" >> "$GITHUB_OUTPUT"
 
       - name: Output green-tokens versions
         if: ${{ contains(fromJson(steps.changesets.outputs.publishedPackages).*.name, '@sebgroup/green-tokens') }}
